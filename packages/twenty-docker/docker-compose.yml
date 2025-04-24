@@ -12,7 +12,7 @@ services:
     environment:
       NODE_PORT: 3000
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${SERVICE_PASSWORD_DB}@${PG_DATABASE_HOST:-db}:${PG_DATABASE_PORT:-5432}/default
-      SERVER_URL: ${SERVICE_FQDN_SERVER_3000}
+      SERVER_URL: ${SERVER_URL}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
 
       STORAGE_TYPE: ${STORAGE_TYPE:-local}
@@ -21,8 +21,6 @@ services:
       STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT}
 
       APP_SECRET: ${SERVICE_PASSWORD_APPSECRET}
-
-      SERVICE_FQDN_SERVER_3000:
 
       MESSAGING_PROVIDER_GMAIL_ENABLED: ${MESSAGING_PROVIDER_GMAIL_ENABLED:-false}
       CALENDAR_PROVIDER_GOOGLE_ENABLED: ${CALENDAR_PROVIDER_GOOGLE_ENABLED:-false}
@@ -65,10 +63,10 @@ services:
     volumes:
       - server-local-data:/app/packages/twenty-server/$${STORAGE_LOCAL_PATH:-.local-storage}
     command: ["yarn", "worker:prod"]
-    exclude_from_hc: true
+    #exclude_from_hc: true
     environment:
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${SERVICE_PASSWORD_DB}@${PG_DATABASE_HOST:-db}:${PG_DATABASE_PORT:-5432}/default
-      SERVER_URL: ${SERVICE_FQDN_SERVER_3000}
+      SERVER_URL: ${SERVER_URL}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
       DISABLE_DB_MIGRATIONS: "true" # it already runs on the server
 
